@@ -5,7 +5,7 @@ const profileSchema = new mongoose.Schema(
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     age: { type: Number, required: true, min: 0 },
-    phoneNumber: { type: String, },
+    phoneNumber: { type: String },
     userDescription: { type: String, maxlength: 500 },
     job: { type: String, required: true, maxlength: 100 },
   },
@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       minlength: 10,
+      match: /.+@.+\..+/,
     },
     password: {
       type: String,
