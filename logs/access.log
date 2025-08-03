@@ -37,3 +37,8 @@
 [2025-08-03T22:17:50.012Z] GET /api/users
 [2025-08-03T22:18:53.540Z] GET /api/users/ABC
 [2025-08-03T22:19:05.590Z] PUT /api/users/ABC | Body: {"name":"Dagoberto Salas Cordero","job":"Junior QA Functional Specialist"}
+[2025-08-03T23:11:29.928Z] GET /api/users
+[2025-08-03T23:12:14.674Z] POST /api/users | Body: {"email":"prueba@example.com","password":"12345678","profile":{"firstName":"Carlos","lastName":"Ramírez","age":28,"phoneNumber":"555-123-4567","userDescription":"Desarrollador apasionado por JavaScript","job":"Backend Developer"}}
+[2025-08-03T23:12:41.321Z] POST /api/users | Body: {"email":"prueba@example.com","password":"12345678","profile":{"firstName":"Carlos","lastName":"Ramírez","age":28,"phoneNumber":"555-123-4567","userDescription":"Desarrollador apasionado por JavaScript","job":"Backend Developer"}}
+[2025-08-03T23:12:55.904Z] POST /api/users | Body: {"email":"prueba@example.com","password":"12345678","profile":{"firstName":"Carlos","lastName":"Ramírez","age":28,"phoneNumber":"555-123-4567","userDescription":"Desarrollador apasionado por JavaScript","job":"Backend Developer"}}
+[2025-08-03T23:13:11.795Z] GET /api/users

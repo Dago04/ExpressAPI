@@ -5,7 +5,7 @@ const profileSchema = new mongoose.Schema(
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     age: { type: Number, required: true, min: 0 },
-    phoneNumber: { type: String, match: /^\d{10}$/ },
+    phoneNumber: { type: String, },
     userDescription: { type: String, maxlength: 500 },
     job: { type: String, required: true, maxlength: 100 },
   },

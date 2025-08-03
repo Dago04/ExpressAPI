@@ -6,6 +6,7 @@ const logger = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 const connectDB = require('./config/db');
 const usersRoutes = require('./routes/users');
+const blogsRoutes = require('./routes/blogs');
 
 // Conectar a la base de datos
 connectDB(); 
@@ -17,6 +18,7 @@ app.use(logger);
 
 // Rutas de la API
 app.use('/api/users', usersRoutes);
+app.use('/api/blogs', blogsRoutes);
 
 // Middleware para manejar errores
 app.use(errorHandler);
