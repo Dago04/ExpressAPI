@@ -20,3 +20,20 @@
 [2025-08-02T16:40:05.946Z] DELETE /api/users/ABC
 [2025-08-02T16:42:52.641Z] DELETE /api/users/ABC
 [2025-08-02T16:44:35.257Z] DELETE /api/users/ABC
+[2025-08-03T21:59:52.717Z] GET /api/users
+[2025-08-03T22:01:09.848Z] POST /api/users | Body: {"name":"Joseph Morales","job":"Dancer pvto"}
+[2025-08-03T22:01:23.339Z] GET /api/users
+[2025-08-03T22:10:34.022Z] GET /api/users
+[2025-08-03T22:10:36.735Z] GET /api/users
+[2025-08-03T22:10:37.561Z] GET /api/users
+[2025-08-03T22:11:00.180Z] POST /api/users | Body: {"name":"PruebaQABruno","job":"PruebaQA"}
+[2025-08-03T22:11:03.405Z] GET /api/users
+[2025-08-03T22:13:27.965Z] GET /api/users
+[2025-08-03T22:14:04.090Z] GET /api/users
+[2025-08-03T22:16:24.449Z] GET /api/users
+[2025-08-03T22:17:06.045Z] GET /api/users
+[2025-08-03T22:17:14.408Z] GET /api/users
+[2025-08-03T22:17:42.143Z] GET /api/users
+[2025-08-03T22:17:50.012Z] GET /api/users
+[2025-08-03T22:18:53.540Z] GET /api/users/ABC
+[2025-08-03T22:19:05.590Z] PUT /api/users/ABC | Body: {"name":"Dagoberto Salas Cordero","job":"Junior QA Functional Specialist"}
