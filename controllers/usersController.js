@@ -1,55 +1,70 @@
 const User = require('../models/User');
 const mongoose = require('mongoose');
 
-// Obtener Todos los usuarios
+// Obtener todos los usuarios (sin mostrar contraseña)
 const getUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const users = await User.find().select('-password');
     res.json(users);
-  } catch (error) {
-    next(error); // delega al middleware global
-  }
-};
-
-// POST nuevo usuario
-const createUser = async (req, res, next) => {
-  const { name, job } = req.body;
-
-  if (!name || !job || typeof name !== 'string' || typeof job !== 'string') {
-    res.status(400);
-    return next(new Error('Campos inválidos'));
-  }
-
-  try {
-    const newUser = new User({ name: name.trim(), job: job.trim() });
-    const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
   } catch (error) {
     next(error);
   }
 };
 
-// Actualizar un usuario
+// Crear nuevo usuario
+const createUser = async (req, res, next) => {
+  const { email, password, profile } = req.body;
+
+  if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
+    res.status(400);
+    return next(new Error('Email y contraseña son requeridos'));
+  }
+
+  try {
+    const newUser = new User({
+      email: email.toLowerCase().trim(),
+      password: password.trim(), // (más adelante podemos hashearla con bcrypt)
+      profile: {
+        firstName: profile?.firstName || '',
+        lastName: profile?.lastName || '',
+        age: profile?.age || null,
+        phoneNumber: profile?.phoneNumber || '',
+        userDescription: profile?.userDescription || '',
+        job: profile?.job || ''
+      }
+    });
+
+    const savedUser = await newUser.save();
+    const userWithoutPassword = savedUser.toObject();
+    delete userWithoutPassword.password;
+
+    res.status(201).json(userWithoutPassword);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Actualizar usuario
 const updateUser = async (req, res, next) => {
   const { id } = req.params;
-  const { name, job } = req.body;
+  const { profile } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(400);
     return next(new Error('ID de usuario inválido'));
   }
 
-  if (!name && !job) {
+  if (!profile || typeof profile !== 'object') {
     res.status(400);
-    return next(new Error('Debe enviar al menos un campo (name o job)'));
+    return next(new Error('Debes enviar un objeto válido en "profile"'));
   }
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      { $set: { ...(name && { name }), ...(job && { job }) } },
+      { $set: { profile } },
       { new: true, runValidators: true }
-    );
+    ).select('-password');
 
     if (!updatedUser) {
       res.status(404);
@@ -62,7 +77,7 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-// Eliminar un usuario
+// Eliminar usuario
 const deleteUser = async (req, res, next) => {
   const { id } = req.params;
 
@@ -72,7 +87,7 @@ const deleteUser = async (req, res, next) => {
   }
 
   try {
-    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(id).select('-password');
 
     if (!deletedUser) {
       res.status(404);
@@ -89,5 +104,5 @@ module.exports = {
   getUsers,
   createUser,
   updateUser,
-  deleteUser,
+  deleteUser
 };
