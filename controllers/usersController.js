@@ -25,12 +25,12 @@ const createUser = async (req, res, next) => {
       email: email.toLowerCase().trim(),
       password: password.trim(), // (más adelante podemos hashearla con bcrypt)
       profile: {
-        firstName: profile?.firstName || '',
-        lastName: profile?.lastName || '',
-        age: profile?.age || null,
+        firstName: profile.firstName.trim(),
+        lastName: profile.lastName.trim(),
+        age: profile.age,
         phoneNumber: profile?.phoneNumber || '',
         userDescription: profile?.userDescription || '',
-        job: profile?.job || ''
+        job: profile.job.trim()
       }
     });
 
