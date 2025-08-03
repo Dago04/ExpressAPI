@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const profileSchema = new mongoose.Schema(
   {
@@ -25,6 +26,8 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      minlength: 8,
+      maxlength: 72,
     },
     profile: profileSchema,
   },
@@ -32,4 +35,13 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();          // evita re-hash innecesario
+  this.password = await bcrypt.hash(this.password, 12);     // work-factor 12 ≈ producción
+  next();
+});
+userSchema.methods.comparePassword = function (candidate) {
+  return bcrypt.compare(candidate, this.password);          // verificación constante-time
+};
 module.exports = mongoose.model("User", userSchema);
