@@ -45,11 +45,6 @@ const createBlog = async (req, res, next) => {
 const getBlogById = async (req, res, next) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
-    return next(new Error('ID de blog inválido'));
-  }
-
   try {
     const blog = await Blog.findById(id)
       .populate('author', '-password -__v')
@@ -70,11 +65,6 @@ const getBlogById = async (req, res, next) => {
 const updateBlog = async (req, res, next) => {
   const { id } = req.params;
   const { title, summary } = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
-    return next(new Error('ID de blog inválido'));
-  }
 
   if (!title && !summary) {
     res.status(400);
@@ -107,11 +97,6 @@ const updateBlog = async (req, res, next) => {
 // Eliminar blog
 const deleteBlog = async (req, res, next) => {
   const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
-    return next(new Error('ID inválido'));
-  }
 
   try {
     const deletedBlog = await Blog.findByIdAndDelete(id);

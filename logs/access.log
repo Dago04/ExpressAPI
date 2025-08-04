@@ -71,3 +71,6 @@
 [2025-08-04T00:57:20.676Z] POST /api/users | Body: {"email":"bademail","password":"123","profile":{"firstName":"A","lastName":"","age":-5,"phoneNumber":"1234567890123456789012345","userDescription":"short","job":""}}
 [2025-08-04T01:03:03.069Z] POST /api/users | Body: {"email":"bademail","password":"123","profile":{"firstName":"A","lastName":"","age":-5,"phoneNumber":"1234567890123456789012345","userDescription":"short","job":""}}
 [2025-08-04T01:03:27.039Z] POST /api/users | Body: {"email":"prueba@@example.com","password":"12345678","profile":{"firstName":"Carlos","lastName":"Ramírez","age":28,"phoneNumber":"555-123-4567","userDescription":"Desarrollador apasionado por JavaScript","job":"Backend Developer"}}
+[2025-08-04T01:05:08.717Z] POST /api/auth/register | Body: {"email":"alice@@example.com","password":"Str0ngP@ss!"}
+[2025-08-04T01:08:46.093Z] POST /api/auth/register | Body: {"email":"alice@@example.com","password":"Str0ngP@ss!"}
+[2025-08-04T01:08:53.863Z] POST /api/auth/register | Body: {"email":"alice@examplecom","password":"Str0ngP@ss!"}

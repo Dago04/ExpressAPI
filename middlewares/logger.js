@@ -1,33 +1,22 @@
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
 
-const logFilePath = path.join(__dirname, '../logs/access.log');
+// crea la carpeta si no existe
+const logsDir = path.join(__dirname, '../logs');
+if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir);
 
-const logger = (req,res,next) =>{
-    // Solo activa el middleware si estamos en entorno "development"
-    if (process.env.NODE_ENV !== 'development') {
-        return next();
-    }
+const logFilePath = path.join(logsDir, 'access.log');
 
-    const timestamp = new Date().toISOString();
-    const {method, originalUrl, body} = req;
-    
-     // Crear mensaje de log
-    let log = `[${timestamp}] ${method} ${originalUrl}`;
+module.exports = (req, res, next) => {
+  if (process.env.NODE_ENV !== 'development') return next();
 
-     // Si es POST o PUT, incluir el body
-    if (['POST', 'PUT'].includes(method)) {
-        log += ` | Body: ${JSON.stringify(body)}`;
-    }
+  const timestamp = new Date().toISOString();
+  const { method, originalUrl, body } = req;
+  let log = `[${timestamp}] ${method} ${originalUrl}`;
 
-     // Imprimir en consola
-    console.log(log);
+  if (['POST', 'PUT'].includes(method)) log += ` | Body: ${JSON.stringify(body)}`;
 
-    // Guardar en archivo (append)
-    fs.appendFileSync(logFilePath, log + '\n');
-
-    next();
-
+  console.log(log);
+  fs.appendFileSync(logFilePath, log + '\n');
+  next();
 };
-
-module.exports = logger; 

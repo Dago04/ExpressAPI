@@ -2,6 +2,9 @@
 const express = require('express');
 const rateLimit    = require('express-rate-limit');
 const { register, login } = require('../controllers/authController');
+const { registerValidator,
+       loginValidator } =
+      require('../validators/authValidator');
 const router = express.Router();
 
 
@@ -12,7 +15,7 @@ const loginLimiter = rateLimit({
   standardHeaders: true,
 });
 
-router.post('/register', register);
-router.post('/login', loginLimiter, login);
+router.post('/register',registerValidator, register);
+router.post('/login', loginLimiter, loginValidator, login);
 
 module.exports = router;

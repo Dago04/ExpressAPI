@@ -49,11 +49,6 @@ const updateUser = async (req, res, next) => {
   const { id } = req.params;
   const { profile } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
-    return next(new Error('ID de usuario inválido'));
-  }
-
   if (!profile || typeof profile !== 'object') {
     res.status(400);
     return next(new Error('Debes enviar un objeto válido en "profile"'));
@@ -80,11 +75,6 @@ const updateUser = async (req, res, next) => {
 // Eliminar usuario
 const deleteUser = async (req, res, next) => {
   const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
-    return next(new Error('ID inválido'));
-  }
 
   try {
     const deletedUser = await User.findByIdAndDelete(id).select('-password');
