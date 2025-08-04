@@ -18,17 +18,16 @@ const getUsers = asyncHandler(async (req, res) => {
 
 // Crear nuevo usuario
 const createUser = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.create(req.body);
-    const userObj = user.toObject();
-    delete userObj.password;
-    res.status(201).json(userObj);
-  } catch (err) {
-    if (err.code === 11000) {          // email ya existe
-      return res.status(409).json({ message: 'Email ya registrado' });
-    }
-    throw err;
+  // Validar que el email no esté ya registrado
+  const existingUser = await User.findOne({ email: req.body.email });
+  if (existingUser) {
+    return res.status(409).json({ message: 'Email ya registrado' });
   }
+  const user = await User.create(req.body);
+  const userObj = user.toObject();
+  delete userObj.password;
+  res.status(201).json(userObj);
+
 });
 
 // Actualizar usuario

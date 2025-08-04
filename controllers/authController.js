@@ -6,16 +6,13 @@ const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
 exports.register = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.create(req.body);
-    return res.status(201).json({ id: user._id });
-  } catch (err) {
-    if (err.code === 11000) {
-      // Clave duplicada en Mongo (email único)
-      return res.status(409).json({ message: 'Email ya registrado' });
-    }
-    throw err; // será capturado por asyncHandler
+  // Validar que el email no esté ya registrado
+  const existingUser = await User.findOne({ email: req.body.email });
+  if (existingUser) {
+    return res.status(409).json({ message: 'Email ya registrado' });
   }
+  const user = await User.create(req.body);
+  return res.status(201).json({ id: user._id });
 });
 exports.login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
