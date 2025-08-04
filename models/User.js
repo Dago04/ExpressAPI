@@ -36,29 +36,29 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre('findOneAndUpdate', async function (next) {
+userSchema.pre("findOneAndUpdate", async function (next) {
   const update = this.getUpdate();
 
   // Soporta variantes con y sin $set
-  const plainPassword = update.password || (update.$set && update.$set.password);
+  const plainPassword =
+    update.password || (update.$set && update.$set.password);
   if (!plainPassword) return next();
 
   const hashed = await bcrypt.hash(plainPassword, 12);
 
-  if (update.password)               update.password               = hashed;
+  if (update.password) update.password = hashed;
   if (update.$set && update.$set.password) update.$set.password = hashed;
 
   next();
 });
 
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();          // evita re-hash innecesario
-  this.password = await bcrypt.hash(this.password, 12);     // work-factor 12 ≈ producción
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next(); // evita re-hash innecesario
+  this.password = await bcrypt.hash(this.password, 12); // work-factor 12 ≈ producción
   next();
 });
 userSchema.methods.comparePassword = function (candidate) {
-  return bcrypt.compare(candidate, this.password);          // verificación constante-time
+  return bcrypt.compare(candidate, this.password); // verificación constante-time
 };
-
 
 module.exports = mongoose.model("User", userSchema);
