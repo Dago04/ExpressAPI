@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(logger);
 
 // Rutas de la API
+
 app.use('/api/users', usersRoutes);
 app.use('/api/blogs', blogsRoutes);
 app.use('/api/auth',  authRoutes); 

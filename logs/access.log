@@ -49,3 +49,16 @@
 [2025-08-03T23:59:28.162Z] GET /api/users
 [2025-08-03T23:59:36.596Z] POST /api/blogs | Body: {"title":"5 trucos para escribir APIs REST limpias","summary":"En esta guía rápida comparto buenas prácticas para diseñar endpoints claros, manejar errores y documentar tu API con Swagger.","author":"688fecf76eed092c1cf77713"}
 [2025-08-03T23:59:53.684Z] GET /api/blogs
+[2025-08-04T00:09:04.764Z] GET /api/users
+[2025-08-04T00:09:16.939Z] GET /api/users
+[2025-08-04T00:09:23.956Z] POST /api/users | Body: {"email":"prueba@example.com","password":"12345678","profile":{"firstName":"Carlos","lastName":"Ramírez","age":28,"phoneNumber":"555-123-4567","userDescription":"Desarrollador apasionado por JavaScript","job":"Backend Developer"}}
+[2025-08-04T00:09:26.902Z] PUT /api/users/ABC | Body: {"name":"Dagoberto Salas Cordero","job":"Junior QA Functional Specialist"}
+[2025-08-04T00:09:29.887Z] DELETE /api/users/ABC
+[2025-08-04T00:09:56.288Z] POST /api/auth/login | Body: {"email":"alice@example.com","password":"Str0ngP@ss!"}
+[2025-08-04T00:11:13.290Z] POST /api/auth/login | Body: {"email":"alice@example.com","password":"Str0ngP@ss!"}
+[2025-08-04T00:11:30.456Z] POST /api/auth/login | Body: {"email":"alice@example.com","password":"Str0ngP@ss!"}
+[2025-08-04T00:11:37.639Z] GET /api/users
+[2025-08-04T00:12:03.212Z] GET /api/users
+[2025-08-04T00:15:56.556Z] GET /api/blogs
+[2025-08-04T00:19:42.497Z] GET /api/blogs
+[2025-08-04T00:20:11.987Z] GET /api/blogs
