@@ -11,8 +11,8 @@ const { createUserValidator } =
 const validateId = require('../middlewares/validateObjectId');
 
 router.get("/", getUsers);
-router.post("/", createUserValidator, createUser);
-router.put("/:id", validateId(['id']), updateUser);
-router.delete("/:id", validateId(['id']), deleteUser);
+router.post("/",protect, createUserValidator, createUser);
+router.put("/:id",protect, validateId(['id']), updateUser);
+router.delete("/:id",protect, validateId(['id']), deleteUser);
 
 module.exports = router;
