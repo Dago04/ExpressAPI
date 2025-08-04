@@ -17,83 +17,52 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 // Crear nuevo usuario
-const createUser = async (req, res, next) => {
-  const { email, password, profile } = req.body;
-
-  if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
-    res.status(400);
-    return next(new Error('Email y contraseña son requeridos'));
-  }
-
+const createUser = asyncHandler(async (req, res, next) => {
   try {
-    const newUser = new User({
-      email: email.toLowerCase().trim(),
-      password: password.trim(), // (más adelante podemos hashearla con bcrypt)
-      profile: {
-        firstName: profile.firstName.trim(),
-        lastName: profile.lastName.trim(),
-        age: profile.age,
-        phoneNumber: profile?.phoneNumber || '',
-        userDescription: profile?.userDescription || '',
-        job: profile.job.trim()
-      }
-    });
-
-    const savedUser = await newUser.save();
-    const userWithoutPassword = savedUser.toObject();
-    delete userWithoutPassword.password;
-
-    res.status(201).json(userWithoutPassword);
-  } catch (error) {
-    next(error);
+    const user = await User.create(req.body);
+    const userObj = user.toObject();
+    delete userObj.password;
+    res.status(201).json(userObj);
+  } catch (err) {
+    if (err.code === 11000) {          // email ya existe
+      return res.status(409).json({ message: 'Email ya registrado' });
+    }
+    throw err;
   }
-};
+});
 
 // Actualizar usuario
-const updateUser = async (req, res, next) => {
+const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { profile } = req.body;
+  const { profile, password, email } = req.body;
 
-  if (!profile || typeof profile !== 'object') {
-    res.status(400);
-    return next(new Error('Debes enviar un objeto válido en "profile"'));
-  }
-
-  try {
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      { $set: { profile } },
-      { new: true, runValidators: true }
-    ).select('-password');
-
-    if (!updatedUser) {
-      res.status(404);
-      return next(new Error('Usuario no encontrado'));
+  // Construir cambios de forma segura
+  const changes = {};
+  if (email) changes.email = email.toLowerCase().trim();
+  if (password) changes.password = password.trim();
+  if (profile && typeof profile === 'object') {
+    for (const [k, v] of Object.entries(profile)) {
+      if (v !== undefined) changes[`profile.${k}`] = v;
     }
-
-    res.json(updatedUser);
-  } catch (error) {
-    next(error);
   }
-};
+
+  const updated = await User.findByIdAndUpdate(
+    id,
+    { $set: changes },
+    { new: true, runValidators: true, context: 'query' }
+  ).select('-password').lean();
+
+  if (!updated) return res.status(404).json({ message: 'Usuario no encontrado' });
+  res.json(updated);
+});
 
 // Eliminar usuario
-const deleteUser = async (req, res, next) => {
+const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-
-  try {
-    const deletedUser = await User.findByIdAndDelete(id).select('-password');
-
-    if (!deletedUser) {
-      res.status(404);
-      return next(new Error('Usuario no encontrado'));
-    }
-
-    res.json({ message: 'Usuario eliminado', user: deletedUser });
-  } catch (error) {
-    next(error);
-  }
-};
+  const deleted = await User.findByIdAndDelete(id).select('-password').lean();
+  if (!deleted) return res.status(404).json({ message: 'Usuario no encontrado' });
+  res.status(204).end();
+});
 
 module.exports = {
   getUsers,
