@@ -74,3 +74,7 @@
 [2025-08-04T01:05:08.717Z] POST /api/auth/register | Body: {"email":"alice@@example.com","password":"Str0ngP@ss!"}
 [2025-08-04T01:08:46.093Z] POST /api/auth/register | Body: {"email":"alice@@example.com","password":"Str0ngP@ss!"}
 [2025-08-04T01:08:53.863Z] POST /api/auth/register | Body: {"email":"alice@examplecom","password":"Str0ngP@ss!"}
+[2025-08-04T01:24:11.884Z] GET /api/users
+[2025-08-04T01:24:19.278Z] GET /api/blogs
+[2025-08-04T01:24:26.563Z] GET /api/blogs/688ff7e8b40f43d0cc736e4
+[2025-08-04T01:25:19.385Z] DELETE /api/users/ABC

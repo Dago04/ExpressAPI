@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const port = 3000;
 const logger = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 const connectDB = require('./config/db');
@@ -29,6 +28,7 @@ app.use('/api/auth',  authRoutes);
 app.use(errorHandler);
 
 // Inicia el servidor
+const port = process.env.PORT || 3000;
 app.listen(port, () =>{
     console.log(`Servidor escuchando en http://localhost:${port}`);
     console.log('Entorno:', process.env.NODE_ENV);
