@@ -47,3 +47,24 @@ exports.createUserValidator = [
   // middleware genérico: responde 422 si hay errores
   validate
 ];
+
+exports.updateUserValidator = [
+  body('email')
+    .optional()
+    .isEmail().withMessage('Email inválido')
+    .normalizeEmail(),
+
+  body('password')
+    .optional()
+    .isString().isLength({ min: 8, max: 72 }),
+
+  body('profile').optional().isObject(),
+  body('profile.firstName').optional().isString().trim().isLength({ min: 2, max: 50 }),
+  body('profile.lastName').optional().isString().trim().isLength({ min: 2, max: 50 }),
+  body('profile.age').optional().isInt({ min: 0, max: 120 }),
+  body('profile.phoneNumber').optional({ checkFalsy: true }).isString().trim().isLength({ max: 20 }),
+  body('profile.userDescription').optional({ checkFalsy: true }).isString().trim().isLength({ max: 500 }),
+  body('profile.job').optional().isString().trim().isLength({ min: 2, max: 100 }),
+
+  validate
+];

@@ -6,13 +6,13 @@ const { getUsers, createUser, updateUser, deleteUser } =
       require("../controllers/usersController");
 
 // 2️⃣  Validadores
-const { createUserValidator } =
+const { createUserValidator,updateUserValidator } =
       require("../validators/userValidator");
 const validateId = require('../middlewares/validateObjectId');
 
 router.get("/", getUsers);
 router.post("/",protect, createUserValidator, createUser);
-router.put("/:id",protect, validateId(['id']), updateUser);
+router.put("/:id",protect, validateId(['id']), updateUserValidator, updateUser);
 router.delete("/:id",protect, validateId(['id']), deleteUser);
 
 module.exports = router;

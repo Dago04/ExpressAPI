@@ -13,3 +13,13 @@ exports.createBlogValidator = [
     .isMongoId().withMessage('ID de autor inválido'),
   validate         
 ];
+
+exports.updateBlogValidator = [
+  body('title')
+    .optional()
+    .isString().trim().isLength({ min: 3, max: 100 }),
+  body('summary')
+    .optional()
+    .isString().trim().escape().isLength({ min: 10 }),
+  validate
+];

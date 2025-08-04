@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middlewares/authMiddleware');
-const { createBlogValidator } = require('../validators/blogValidator');
+const { createBlogValidator,updateBlogValidator } = require('../validators/blogValidator');
 const validateId = require('../middlewares/validateObjectId');
 const {
   getBlogs,
@@ -22,7 +22,7 @@ router.post('/', protect, createBlogValidator, createBlog);
 router.get('/:id', validateId(['id']), getBlogById);
 
 // Actualizar un blog por ID
-router.put('/:id', protect, validateId(['id']), updateBlog);
+router.put('/:id', protect, validateId(['id']) , updateBlogValidator, updateBlog);
 
 // Eliminar un blog por ID
 router.delete('/:id', protect, validateId(['id']), deleteBlog);
