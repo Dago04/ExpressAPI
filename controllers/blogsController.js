@@ -1,111 +1,86 @@
 const Blog = require('../models/Blog');
 const mongoose = require('mongoose');
+const asyncHandler = require('../utils/asyncHandler');
 
 // Obtener todos los blogs
-const getBlogs = async (req, res, next) => {
-  try {
-    const blogs = await Blog.find()
-      .populate('author', '-password -__v') // Opcional: traer info del autor
-      .select('-__v');
-    res.json(blogs);
-  } catch (error) {
-    next(error);
-  }
-};
+const getBlogs = asyncHandler(async (req, res) => {
+  const page  = parseInt(req.query.page, 10)  || 1;
+  const limit = parseInt(req.query.limit, 10) || 20;
+  const skip  = (page - 1) * limit;
+
+  const blogs = await Blog.find()
+    .populate('author', '-password -__v')
+    .select('-__v')
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  res.json({ page, limit, count: blogs.length, blogs });
+});
 
 // Crear nuevo blog
-const createBlog = async (req, res, next) => {
-  const { title, summary, author } = req.body;
-
-  if (!title || !summary || !author) {
-    res.status(400);
-    return next(new Error('Todos los campos son requeridos'));
+const createBlog = asyncHandler(async (req, res) => {
+  const { title, summary } = req.body;
+  if (!title || !summary) {
+    return res.status(400).json({ message: 'Título y resumen requeridos' });
   }
-
-  try {
-    const newBlog = new Blog({
-      title: title.trim(),
-      summary: summary.trim(),
-       author : req.user._id
-    });
-
-    const savedBlog = await newBlog.save();
-    res.status(201).json(savedBlog);
-  } catch (error) {
-    next(error);
-  }
-};
+  const blog = await Blog.create({
+    title: title.trim(),
+    summary: summary.trim(),
+    author: req.user._id,
+  });
+  res.status(201).json(blog);
+});
 
 // Obtener blog por ID
-const getBlogById = async (req, res, next) => {
+const getBlogById = asyncHandler(async (req, res) => {
   const { id } = req.params;
-
-  try {
-    const blog = await Blog.findById(id)
-      .populate('author', '-password -__v')
-      .select('-__v');
-
-    if (!blog) {
-      res.status(404);
-      return next(new Error('Blog no encontrado'));
-    }
-
-    res.json(blog);
-  } catch (error) {
-    next(error);
-  }
-};
+  const blog = await Blog.findById(id)
+    .populate('author', '-password -__v')
+    .select('-__v')
+    .lean();
+  if (!blog) return res.status(404).json({ message: 'Blog no encontrado' });
+  res.json(blog);
+});
 
 // Actualizar blog
-const updateBlog = async (req, res, next) => {
+const updateBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title, summary } = req.body;
-
   if (!title && !summary) {
-    res.status(400);
-    return next(new Error('Debe enviar al menos "title" o "summary"'));
+    return res.status(400).json({ message: 'Debe enviar "title" o "summary"' });
   }
 
-  try {
-    const updatedBlog = await Blog.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          ...(title && { title: title.trim() }),
-          ...(summary && { summary: summary.trim() })
-        }
-      },
-      { new: true, runValidators: true }
-    );
-
-    if (!updatedBlog) {
-      res.status(404);
-      return next(new Error('Blog no encontrado'));
-    }
-
-    res.json(updatedBlog);
-  } catch (error) {
-    next(error);
+  // Verificar autoría
+  const blog = await Blog.findById(id);
+  if (!blog) return res.status(404).json({ message: 'Blog no encontrado' });
+  if (!blog.author.equals(req.user._id)) {
+    return res.status(403).json({ message: 'No autorizado' });
   }
-};
+
+  const changes = {};
+  if (title) changes.title = title.trim();
+  if (summary) changes.summary = summary.trim();
+
+  const updated = await BlogModel.findByIdAndUpdate(id, { $set: changes }, {
+    new: true,
+    runValidators: true,
+  }).lean();
+
+  res.json(updated);
+});
 
 // Eliminar blog
-const deleteBlog = async (req, res, next) => {
+const deleteBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
-
-  try {
-    const deletedBlog = await Blog.findByIdAndDelete(id);
-
-    if (!deletedBlog) {
-      res.status(404);
-      return next(new Error('Blog no encontrado'));
-    }
-
-    res.json({ message: 'Blog eliminado', blog: deletedBlog });
-  } catch (error) {
-    next(error);
+  const blog = await Blog.findById(id);
+  if (!blog) return res.status(404).json({ message: 'Blog no encontrado' });
+  if (!blog.author.equals(req.user._id)) {
+    return res.status(403).json({ message: 'No autorizado' });
   }
-};
+  await blog.deleteOne();
+  res.status(204).end();
+});
 
 module.exports = {
   getBlogs,
