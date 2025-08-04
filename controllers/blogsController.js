@@ -22,16 +22,11 @@ const createBlog = async (req, res, next) => {
     return next(new Error('Todos los campos son requeridos'));
   }
 
-  if (!mongoose.Types.ObjectId.isValid(author)) {
-    res.status(400);
-    return next(new Error('ID de autor inválido'));
-  }
-
   try {
     const newBlog = new Blog({
       title: title.trim(),
       summary: summary.trim(),
-      author
+       author : req.user._id
     });
 
     const savedBlog = await newBlog.save();
