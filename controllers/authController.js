@@ -6,11 +6,7 @@ const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
 exports.register = asyncHandler(async (req, res, next) => {
-  // Validar que el email no esté ya registrado
-  const existingUser = await User.findOne({ email: req.body.email });
-  if (existingUser) {
-    return res.status(409).json({ message: 'Email ya registrado' });
-  }
+  
   const user = await User.create(req.body);
   return res.status(201).json({ id: user._id });
 });
