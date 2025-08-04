@@ -62,3 +62,6 @@
 [2025-08-04T00:15:56.556Z] GET /api/blogs
 [2025-08-04T00:19:42.497Z] GET /api/blogs
 [2025-08-04T00:20:11.987Z] GET /api/blogs
+[2025-08-04T00:25:48.226Z] POST /api/auth/register | Body: {"email":"alice@example.com","password":"Str0ngP@ss!"}
+[2025-08-04T00:30:43.502Z] POST /api/auth/register | Body: {"email":"alice@example.com","password":"Str0ngP@ss!"}
+[2025-08-04T00:30:51.335Z] POST /api/auth/register | Body: {"email":"alice@example.com","password":"Str0ngP@ss!"}
