@@ -9,11 +9,13 @@ const usersRoutes = require('./routes/users');
 const blogsRoutes = require('./routes/blogs');
 const authRoutes  = require('./routes/auth')
 
+
 // Conectar a la base de datos
 connectDB(); 
 
 // Middleware para parsear JSON
 app.use(express.json());
+
 // Middleware para registrar peticiones
 app.use(logger);
 

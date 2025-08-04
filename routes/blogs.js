@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const blogsController = require('../controllers/blogsController');
 const { protect } = require('../middlewares/authMiddleware');
+const { createBlogValidator } = require('../validators/blogValidator');
 const {
   getBlogs,
   createBlog,
@@ -15,7 +16,7 @@ const {
 router.get('/', getBlogs);
 
 // Crear un nuevo blog
-router.post('/', protect, createBlog);
+router.post('/', protect, createBlogValidator, createBlog);
 
 // Obtener un blog por ID
 router.get('/:id', getBlogById);
