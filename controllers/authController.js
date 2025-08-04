@@ -7,7 +7,6 @@ const signToken = (id) =>
 exports.register = async (req,res,next) => {
     const user = await User.create(req.body);
     res.status(201).json({ id: user._id });
-
 };
 
 exports.login = async (req, res, next) => {
