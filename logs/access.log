@@ -43,3 +43,9 @@
 [2025-08-03T23:12:55.904Z] POST /api/users | Body: {"email":"prueba@example.com","password":"12345678","profile":{"firstName":"Carlos","lastName":"Ramírez","age":28,"phoneNumber":"555-123-4567","userDescription":"Desarrollador apasionado por JavaScript","job":"Backend Developer"}}
 [2025-08-03T23:13:11.795Z] GET /api/users
 [2025-08-03T23:35:36.659Z] POST /api/blogs | Body: {"title":"5 trucos para escribir APIs REST limpias","summary":"En esta guía rápida comparto buenas prácticas para diseñar endpoints claros, manejar errores y documentar tu API con Swagger.","author":"688fecf76eed092c1cf77713"}
+[2025-08-03T23:56:03.838Z] POST /api/auth/register | Body: {"email":"alice@example.com","password":"Str0ngP@ss!"}
+[2025-08-03T23:57:38.956Z] POST /api/auth/login | Body: {"email":"alice@example.com","password":"Str0ngP@ss!"}
+[2025-08-03T23:57:48.381Z] POST /api/auth/login | Body: {"email":"alice@example.com","password":"Str0ngP@ss!"}
+[2025-08-03T23:59:28.162Z] GET /api/users
+[2025-08-03T23:59:36.596Z] POST /api/blogs | Body: {"title":"5 trucos para escribir APIs REST limpias","summary":"En esta guía rápida comparto buenas prácticas para diseñar endpoints claros, manejar errores y documentar tu API con Swagger.","author":"688fecf76eed092c1cf77713"}
+[2025-08-03T23:59:53.684Z] GET /api/blogs
