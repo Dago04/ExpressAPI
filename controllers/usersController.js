@@ -1,15 +1,20 @@
 const User = require('../models/User');
 const mongoose = require('mongoose');
+const asyncHandler = require('../utils/asyncHandler');
 
 // Obtener todos los usuarios (sin mostrar contraseña)
-const getUsers = async (req, res, next) => {
-  try {
-    const users = await User.find().select('-password');
-    res.json(users);
-  } catch (error) {
-    next(error);
-  }
-};
+const getUsers = asyncHandler(async (req, res) => {
+  const page  = parseInt(req.query.page, 10)  || 1;
+  const limit = parseInt(req.query.limit, 10) || 20;
+  const skip  = (page - 1) * limit;
+
+  const users = await UserModel.find()
+    .select('-password -__v')
+    .skip(skip)
+    .limit(limit)
+    .lean();
+  res.json({ page, limit, count: users.length, users });
+});
 
 // Crear nuevo usuario
 const createUser = async (req, res, next) => {
