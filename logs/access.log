@@ -84,3 +84,7 @@
 [2025-08-04T18:35:36.286Z] POST /api/blogs | Body: {"title":"Titulo 1","summary":"Esto es una prueba","author":"6890fb47592803d80fb9e0fc"}
 [2025-08-04T18:36:28.608Z] POST /api/blogs | Body: {"title":"Titulo 1","summary":"Esto es una prueba","author":"6890fb47592803d80fb9e0f"}
 [2025-08-04T18:39:20.220Z] POST /api/blogs | Body: {"title":"Titulo 1","summary":"Esto es una prueba","author":"6890fe6fb721239d1430629f"}
+[2025-08-04T19:19:34.756Z] GET /
+[2025-08-04T19:19:51.345Z] GET /api/users
+[2025-08-04T19:20:13.493Z] GET /api/users?limit=5
+[2025-08-04T19:20:22.172Z] GET /api/users

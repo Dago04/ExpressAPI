@@ -1,12 +1,12 @@
 // routes/auth.js
-const express = require('express');
-const rateLimit    = require('express-rate-limit');
-const { register, login } = require('../controllers/authController');
-const { registerValidator,
-       loginValidator } =
-      require('../validators/authValidator');
+const express = require("express");
+const rateLimit = require("express-rate-limit");
+const { register, login } = require("../controllers/authController");
+const {
+  registerValidator,
+  loginValidator,
+} = require("../validators/authValidator");
 const router = express.Router();
-
 
 // Límite exclusivo para esta ruta
 const loginLimiter = rateLimit({
@@ -15,7 +15,7 @@ const loginLimiter = rateLimit({
   standardHeaders: true,
 });
 
-router.post('/register',registerValidator, register);
-router.post('/login', loginLimiter, loginValidator, login);
+router.post("/register", registerValidator, register);
+router.post("/login", loginLimiter, loginValidator, login);
 
 module.exports = router;
