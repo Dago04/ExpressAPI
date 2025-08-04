@@ -8,7 +8,7 @@ const getUsers = asyncHandler(async (req, res) => {
   const limit = parseInt(req.query.limit, 10) || 20;
   const skip  = (page - 1) * limit;
 
-  const users = await UserModel.find()
+  const users = await User.find()
     .select('-password -__v')
     .skip(skip)
     .limit(limit)
