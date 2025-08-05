@@ -16,6 +16,7 @@ connectDB();
 
 app.use(cors({
   origin: [
+    'http://localhost:4321',
     'http://localhost:3000',
     'https://expressapi-172e.onrender.com'], // añade más dominios si los tendrás
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
