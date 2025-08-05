@@ -1,4 +1,5 @@
 require('dotenv').config();
+import cors from 'cors';
 const express = require('express');
 const app = express();
 const logger = require('./middlewares/logger');
@@ -9,11 +10,19 @@ const blogsRoutes = require('./routes/blogs');
 const authRoutes  = require('./routes/auth')
 
 
+
 // Conectar a la base de datos
 connectDB(); 
 
 // Middleware para parsear JSON
 app.use(express.json());
+
+app.use(cors({
+  origin: ['https://expressapi-172e.onrender.com/api'], // añade más dominios si los tendrás
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,                 // por si luego usas cookies
+}));
 
 // Middleware para registrar peticiones
 app.use(logger);
