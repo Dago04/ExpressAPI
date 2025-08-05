@@ -14,9 +14,6 @@ const cors = require('cors');
 // Conectar a la base de datos
 connectDB(); 
 
-// Middleware para parsear JSON
-app.use(express.json());
-
 app.use(cors({
   origin: [
     'http://localhost:3000',
@@ -25,6 +22,10 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,                 // por si luego usas cookies
 }));
+
+
+// Middleware para parsear JSON
+app.use(express.json());
 
 // Middleware para registrar peticiones
 app.use(logger);
