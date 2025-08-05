@@ -1,4 +1,4 @@
-import cors from 'cors';
+
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -8,7 +8,7 @@ const connectDB = require('./config/db');
 const usersRoutes = require('./routes/users');
 const blogsRoutes = require('./routes/blogs');
 const authRoutes  = require('./routes/auth')
-
+const cors = require('cors');
 
 
 // Conectar a la base de datos
@@ -18,7 +18,9 @@ connectDB();
 app.use(express.json());
 
 app.use(cors({
-  origin: ['https://expressapi-172e.onrender.com'], // añade más dominios si los tendrás
+  origin: [
+    'http://localhost:3000',
+    'https://expressapi-172e.onrender.com'], // añade más dominios si los tendrás
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,                 // por si luego usas cookies
