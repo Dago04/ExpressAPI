@@ -1,5 +1,5 @@
-require('dotenv').config();
 import cors from 'cors';
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const logger = require('./middlewares/logger');
@@ -18,7 +18,7 @@ connectDB();
 app.use(express.json());
 
 app.use(cors({
-  origin: ['https://expressapi-172e.onrender.com/api'], // añade más dominios si los tendrás
+  origin: ['https://expressapi-172e.onrender.com'], // añade más dominios si los tendrás
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,                 // por si luego usas cookies
